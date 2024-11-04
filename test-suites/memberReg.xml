@@ -1,0 +1,12 @@
+<suite name="Member_Registration" thread-count="1" parallel="false">
+    <listeners>
+        <listener class-name="framework.utils.RetryTransformer"/>
+    </listeners>
+    <test name="MemberRegistrationTest">
+        <classes>
+            <class name="accumex.ui.tests.MemberRegistrationTest"/>
+        </classes>
+    </test>
+    <!--  HotelTest  -->
+</suite>
+        <!--  HotelSuite  -->
