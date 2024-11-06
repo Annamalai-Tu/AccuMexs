@@ -27,7 +27,7 @@ public class MemberRegistrationTest extends WebDriverInit {
 		memberRegPo.enterExpiryDate("05122024");
 		memberRegPo.selectVisaType("Platinum visa");
 		memberRegPo.clickValidateIdentityDetails();
-		//Assert.assertTrue( memberRegPo.isIdInvalidPresent());
+		Assert.assertTrue( memberRegPo.isIdInvalidPresent());
 		memberRegPo.enterFirstNameLastName(getRandomFirstName(), getRandomLastName());
 		memberRegPo.enterMobileNumber("501234567"); //getRandomNumberBetween(500000000 , 600000000)  );
 		memberRegPo.enterDateOfBirth("29031999");
@@ -50,12 +50,13 @@ public class MemberRegistrationTest extends WebDriverInit {
 		memberRegPo.clickPageNext();
 		//memberRegPo.clickProceed();
 		memberRegPo.dobPopUpWarninng();
+		Assert.assertTrue(memberRegPo.isBrowseFilesPresent());
 	}
 
 	@Test
 	public void TC_002_CORPORATE_MEMBER() {
 		testCaseLog("Page Load Time : " + getPageLoadTime(driver) + " ms");
-		testCaseLog("TC_001 - Corporate Member registration");
+		testCaseLog("TC_002 - Corporate Member registration");
 		loginPO.loginAs(USERNAME,PASSWORD);
 		homepagePo.clickMemberRegistration();
 		memberRegPo.selectMemberCategory(MemberTypes.CORPORATE);
@@ -83,8 +84,54 @@ public class MemberRegistrationTest extends WebDriverInit {
 		memberRegPo.enterRiskType("Natural Person");
 		memberRegPo.enterUboCount(1);
 		memberRegPo.clickPageNext();
+		Assert.assertTrue(memberRegPo.isBrowseFilesPresent());
+		//memberRegPo.clickBrowseFiles();
        // memberRegPo.clickProceed();
 	}
+
+
+
+	@Test
+	public void TC_003() {
+		testCaseLog("Page Load Time : " + getPageLoadTime(driver) + " ms");
+		testCaseLog("TC_003 - Individual Member registration Invalid Details");
+		loginPO.loginAs(USERNAME,PASSWORD);
+		homepagePo.clickMemberRegistration();
+		memberRegPo.selectMemberCategory(MemberTypes.INDIVIDUAL);
+		memberRegPo.selectRegistrationType(RegistrationTypes.REGISTERED);
+		memberRegPo.selectResidencyType(ResidencyTypes.RESIDENT);
+		memberRegPo.selectIdentityType(IdentityTypes.EMIRATES_ID);
+		memberRegPo.enterIdNumber("1456321453");
+		memberRegPo.selectPlaceOfIssue("Dubai");
+		memberRegPo.enterIssueDate("29102024");
+		memberRegPo.enterExpiryDate("05122024");
+		memberRegPo.selectVisaType("Platinum visa");
+		memberRegPo.clickValidateIdentityDetails();
+		//Assert.assertTrue( memberRegPo.isIdInvalidPresent());
+		memberRegPo.enterFirstNameLastName(getRandomFirstName(), getRandomLastName());
+		memberRegPo.enterMobileNumber("501234567"); //getRandomNumberBetween(500000000 , 600000000)  );
+		memberRegPo.enterDateOfBirth("29031999");
+		memberRegPo.selectGender("Male");
+		memberRegPo.enterAddress1("");
+		memberRegPo.enterAddress2("");
+		memberRegPo.selectEmirate("Abu Dhabi");
+		memberRegPo.selectCity("Abu");
+		memberRegPo.selectCountryOfBirth("India");
+		memberRegPo.selectPlaceOfBirth("Bangalore");
+		memberRegPo.selectNationality("India");
+		memberRegPo.selectEconomicActivity("Others");
+		memberRegPo.selectSubEconomicActivity("Others");
+		memberRegPo.selectAirport("Abu Dhabi");
+		memberRegPo.enterExpectedTurnover("75000");
+		memberRegPo.enterExpectedTransactionCount("200");
+		memberRegPo.clickSameAddressCheckbox();
+		memberRegPo.enterRiskType("Natural Person");
+		memberRegPo.enterProfession("Actor");
+		memberRegPo.clickPageNext();
+		//memberRegPo.clickProceed();
+		memberRegPo.dobPopUpWarninng();
+	}
+
 
 }
 

@@ -13,7 +13,7 @@
     <url>https://demo-accumexs.codepointrs.com/</url>
     <description>
         This framework design from the team of the TestUnity
-        for the automation testing of the CTS Application.
+        for the automation testing of the AccuMexs Application.
     </description>
 
 
@@ -110,7 +110,7 @@
                     <testFailureIgnore>true</testFailureIgnore>
                     <suiteXmlFiles>
                         <suiteXmlFile>
-                            ${project.basedir}/test-suites/main.xml
+                            ${project.basedir}/test-suites/memberReg.xml
                         </suiteXmlFile>
                     </suiteXmlFiles>
                     <reportsDirectory>test-output</reportsDirectory>

@@ -7,6 +7,6 @@
             <class name="accumex.ui.tests.MemberRegistrationTest"/>
         </classes>
     </test>
-    <!--  HotelTest  -->
+    <!--  MemberRegTest  -->
 </suite>
-        <!--  HotelSuite  -->
+        <!--  MemberRegSuite  -->

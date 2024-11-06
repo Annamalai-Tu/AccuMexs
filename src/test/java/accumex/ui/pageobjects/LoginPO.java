@@ -55,26 +55,16 @@ public class LoginPO extends AbstractPage {
         testStepsLog("Click on Login Button");
         clickOn(driver, btnLogin);
 
+
         try {
-            testStepsLog("Checking for login warning...");
-
-            if (isElementDisplayed(proceedSignIn)) {
-                testStepsLog("Warning appeared: User already logged in.");
-                pause(2);
-
-                // Click 'Proceed Sign In' button using JavaScript
-                clickOn(driver, proceedSignIn);
-                debugLog("Clicked 'Proceed Sign In' button.");
-
-                // Wait until the next expected page or element appears instead of pausing for 10 seconds
-                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-                wait.until(ExpectedConditions.invisibilityOf(warning)); // Example condition
-            }
-
+            testStepsLog("Warning appeared: User already logged in.");
+            pause(2);
+            clickOn(driver, proceedSignIn);
+            debugLog("Clicked 'Proceed Sign In' button.");
         } catch (Exception e) {
             testStepsLog("No login warning appeared.");
         }
 
-
     }
+
 }

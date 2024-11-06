@@ -80,7 +80,7 @@ public class MemberRegPo extends AbstractPage {
     @FindBy(xpath = "//span[contains(text()  , 'Validate Identity Details')]")
     public WebElement validateIdentityDetails;
 
-    @FindBy(xpath = "//div[contains(text() , 'Id Number Is Invalid')]")
+    @FindBy(xpath = "//div[contains(text() , 'Invalid')]")
     public WebElement idInvalidError;
 
     @FindBy(xpath = "//input[@name='FirstName']")
@@ -163,6 +163,13 @@ public class MemberRegPo extends AbstractPage {
 
     @FindBy(xpath = "//button//span[text() = 'Proceed']")
     public WebElement proceed;
+
+    @FindBy(xpath = "//button//span[text() = 'Yes, confirm']")
+    public WebElement dobConfirmPopup;
+
+
+    @FindBy(xpath = "//button//span[text() = 'Browse Files']")
+    public WebElement browseFiles;
 
     public void enterProfession(String professionInput ){
         type(driver , profession , professionInput , true);
@@ -422,11 +429,20 @@ public class MemberRegPo extends AbstractPage {
         clickOn(driver , proceed);
     }
 
-    @FindBy(xpath = "//button//span[text() = 'Yes, confirm']")
-    public WebElement dobConfirmPopup;
 
     public void dobPopUpWarninng(){
+        testStepsLog("Accepting the Date of birth warning");
         clickOn(driver , dobConfirmPopup);
+    }
+
+    public void clickBrowseFiles(){
+        testStepsLog("Clicking on Browse files to select the document");
+        clickOn(driver , browseFiles);
+    }
+
+    public boolean isBrowseFilesPresent(){
+        testVerifyLog("Clicking on Browse files to select the document");
+        return isElementPresent(browseFiles);
     }
 
 
