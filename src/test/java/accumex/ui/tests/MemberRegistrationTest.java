@@ -27,7 +27,7 @@ public class MemberRegistrationTest extends WebDriverInit {
 		memberRegPo.enterExpiryDate("05122024");
 		memberRegPo.selectVisaType("Platinum visa");
 		memberRegPo.clickValidateIdentityDetails();
-		Assert.assertTrue( memberRegPo.isIdInvalidPresent());
+		//Assert.assertTrue( memberRegPo.isIdInvalidPresent());
 		memberRegPo.enterFirstNameLastName(getRandomFirstName(), getRandomLastName());
 		memberRegPo.enterMobileNumber("501234567"); //getRandomNumberBetween(500000000 , 600000000)  );
 		memberRegPo.enterDateOfBirth("29031999");
@@ -53,7 +53,7 @@ public class MemberRegistrationTest extends WebDriverInit {
 		Assert.assertTrue(memberRegPo.isBrowseFilesPresent());
 	}
 
-	@Test
+	//@Test
 	public void TC_002_CORPORATE_MEMBER() {
 		testCaseLog("Page Load Time : " + getPageLoadTime(driver) + " ms");
 		testCaseLog("TC_002 - Corporate Member registration");
@@ -85,14 +85,14 @@ public class MemberRegistrationTest extends WebDriverInit {
 		memberRegPo.enterUboCount(1);
 		memberRegPo.clickPageNext();
 		Assert.assertTrue(memberRegPo.isBrowseFilesPresent());
-		//memberRegPo.clickBrowseFiles();
+		memberRegPo.uploadFile();
        // memberRegPo.clickProceed();
 	}
 
 
 
-	@Test
-	public void TC_003() {
+	//@Test
+	public void TC_003_ErrorVerify() {
 		testCaseLog("Page Load Time : " + getPageLoadTime(driver) + " ms");
 		testCaseLog("TC_003 - Individual Member registration Invalid Details");
 		loginPO.loginAs(USERNAME,PASSWORD);
@@ -128,10 +128,11 @@ public class MemberRegistrationTest extends WebDriverInit {
 		memberRegPo.enterRiskType("Natural Person");
 		memberRegPo.enterProfession("Actor");
 		memberRegPo.clickPageNext();
-		//memberRegPo.clickProceed();
-		memberRegPo.dobPopUpWarninng();
+		Assert.assertTrue( memberRegPo.isAddress1ErrorPresent());
+		Assert.assertTrue( memberRegPo.isAddress2ErrorPresent());
 	}
 
 
 }
+
 

@@ -9,6 +9,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+
 public class MemberRegPo extends AbstractPage {
 
     @FindBy(xpath = "//input[@name = 'MemberCategoryCode']")
@@ -161,6 +165,9 @@ public class MemberRegPo extends AbstractPage {
     @FindBy(xpath =  "//input[@name='PresentAddress1']")
     public WebElement presentAddress1;
 
+    @FindBy(xpath =  "//input[@name='TRN']")
+    public WebElement txtTrn;
+
     @FindBy(xpath = "//button//span[text() = 'Proceed']")
     public WebElement proceed;
 
@@ -225,12 +232,12 @@ public class MemberRegPo extends AbstractPage {
     }
 
     public void enterIssueDate(String date){
-        testInfoLog("Select date as" , DATE_FORMAT_DASH_DD_MM_YYYY);
+        testStepsLog("Select the Id Issue Date");
         type(driver , issueDate , date , true);
     }
 
     public void enterExpiryDate(String date){
-        testInfoLog("Select date as" , DATE_FORMAT_DASH_DD_MM_YYYY);
+        testStepsLog("Select the Id Expiry Date" );
         type(driver , expiryDate , date , true);
     }
 
@@ -415,10 +422,6 @@ public class MemberRegPo extends AbstractPage {
     }
 
 
-
-
-
-
     public void enterPresentAddress1(String address1){
         testInfoLog("Enter Date as  " , address1);
         type(driver , presentAddress1 , address1 , true);
@@ -443,6 +446,54 @@ public class MemberRegPo extends AbstractPage {
     public boolean isBrowseFilesPresent(){
         testVerifyLog("Clicking on Browse files to select the document");
         return isElementPresent(browseFiles);
+
+    }
+
+    public void  uploadFile(){
+         clickOn(driver , browseFiles);
+        try {
+            // Use the Robot class to handle file upload dialog
+            Robot robot = new Robot();
+
+            // Copy the file path to the clipboard
+            String filePath = "C:\\Users\\Annamalai Raja\\Downloads\\Demo.jpg";
+            StringSelection selection = new StringSelection(filePath);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
+
+            // Simulate Ctrl+V (Paste)
+            robot.delay(1000); // Give time for file dialog to open
+            robot.keyPress(KeyEvent.VK_CONTROL);
+            robot.keyPress(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_V);
+            robot.keyRelease(KeyEvent.VK_CONTROL);
+
+            // Press Enter to confirm the file upload
+            robot.keyPress(KeyEvent.VK_ENTER);
+            robot.keyRelease(KeyEvent.VK_ENTER);
+
+            // Continue with additional test steps if needed
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+          }
+    }
+
+
+    @FindBy(xpath = "//div//p[contains(normalize-space(text()), 'street is required')]")
+    public WebElement address1Error;
+
+    @FindBy(xpath = "//div//p[contains(normalize-space(text()), 'address2 is required')]")
+    public WebElement address2Error;
+
+   public boolean isAddress1ErrorPresent(){
+       testVerifyLog("Error is present");
+       return isElementPresent(address1Error);
+   }
+
+    public boolean isAddress2ErrorPresent(){
+        testVerifyLog("Error is present");
+        return isElementPresent(address2Error);
     }
 
 
