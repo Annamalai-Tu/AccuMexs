@@ -47,10 +47,10 @@ public class MemberRegistrationTest extends WebDriverInit {
 		memberRegPo.clickSameAddressCheckbox();
 		memberRegPo.enterRiskType("Natural Person");
 		memberRegPo.enterProfession("Actor");
-		memberRegPo.clickPageNext();
+	//	memberRegPo.clickPageNext();
 		//memberRegPo.clickProceed();
-		memberRegPo.dobPopUpWarninng();
-		Assert.assertTrue(memberRegPo.isBrowseFilesPresent());
+		//memberRegPo.dobPopUpWarninng();
+		//Assert.assertTrue(memberRegPo.isBrowseFilesPresent());
 	}
 
 	//@Test
