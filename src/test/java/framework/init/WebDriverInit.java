@@ -1,12 +1,16 @@
 package framework.init;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import accumex.ui.pageobjects.HomepagePo;
 import accumex.ui.pageobjects.MemberRegPo;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.Reporter;
@@ -52,7 +56,7 @@ public class WebDriverInit extends Generics implements Configuration {
     }
 
     @BeforeMethod(alwaysRun = true)
-    public void initDriver() {
+    public void initDriver() throws MalformedURLException {
 
         DesiredCapabilities capabilities = switch (BROWSER.toLowerCase()) {
             case "firefox", "mozilla firefox" -> BrowserCaps.configureMozillaFirefox();
@@ -60,8 +64,12 @@ public class WebDriverInit extends Generics implements Configuration {
             default -> BrowserCaps.configureGoogleChrome();
         };
 
-       // driver = new RemoteWebDriver(Configuration.getRemoteGridURL(), capabilities);
-          driver = new ChromeDriver();
+        //driver = new RemoteWebDriver(Configuration.getRemoteGridURL(), capabilities);\
+        DesiredCapabilities dc = new DesiredCapabilities();
+        dc.setPlatform(Platform.LINUX);
+        dc.setBrowserName("MicrosoftEdge");
+        URL url = new URL("http://localhost:4444/wd/hub");
+        driver = new RemoteWebDriver(url , dc);
         implicitWaitOf(driver, IMPLICIT_WAIT);
         maximizeWindow(driver);
      
