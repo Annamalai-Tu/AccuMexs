@@ -5,12 +5,21 @@ pipeline {
             steps {
                 echo "Starting Selenium Grid with Docker Compose..."
                 bat 'docker-compose up -d'
+                echo "Waiting for Selenium Grid to be ready..."
+                bat 'timeout /t 10' // Wait for services to initialize
             }
         }
         stage('Run Tests') {
             steps {
-                echo "Running Tests..."
-                bat 'docker-compose exec tests mvn test'
+                echo "Building and Running Tests..."
+                script {
+                    try {
+                        bat 'docker-compose exec tests mvn clean install'
+                    } catch (Exception e) {
+                        echo "Build or test execution failed: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
             }
         }
     }
