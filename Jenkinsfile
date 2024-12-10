@@ -4,20 +4,20 @@ pipeline {
         stage('Start Selenium Grid') {
             steps {
                 echo "Starting Selenium Grid with Docker Compose..."
-                sh 'docker-compose up -d'
+                bat 'docker-compose up -d'
             }
         }
         stage('Run Tests') {
             steps {
                 echo "Running Tests..."
-                sh 'docker-compose exec tests mvn test'
+                bat 'docker-compose exec tests mvn test'
             }
         }
     }
     post {
         always {
             echo "Stopping Selenium Grid..."
-            sh 'docker-compose down'
+            bat 'docker-compose down'
         }
     }
 }
