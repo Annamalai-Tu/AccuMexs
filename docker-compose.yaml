@@ -31,7 +31,6 @@ services:
       - selenium-hub
     networks:
       - selenium-grid
-
   edge:
     image: selenium/node-edge
     shm_size: 2gb
