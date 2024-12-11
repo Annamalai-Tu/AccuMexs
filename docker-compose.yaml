@@ -45,22 +45,6 @@ services:
     networks:
       - selenium-grid
 
-  tests:
-    build:
-      context: .
-    container_name: accumex-automation
-    volumes:
-      - .:/usr/src/app
-    working_dir: /usr/src/app
-    depends_on:
-      - selenium-hub
-      - chrome
-      - edge
-      - firefox
-    entrypoint: ["mvn", "test"]
-    networks:
-      - selenium-grid
-
 networks:
   selenium-grid:
     driver: bridge
