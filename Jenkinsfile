@@ -28,6 +28,14 @@ pipeline {
                 }
             }
         }
+
+         stage('Report') {
+                    steps {
+                        echo 'Archiving test reports'
+                        archiveArtifacts artifacts: 'ExtentReports/**/*.zip', allowEmptyArchive: true
+                    }
+                }
+
     }
     post {
         always {
