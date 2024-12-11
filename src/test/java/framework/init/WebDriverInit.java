@@ -66,7 +66,7 @@ public class WebDriverInit extends Generics implements Configuration {
 
         //driver = new RemoteWebDriver(Configuration.getRemoteGridURL(), capabilities);\
         DesiredCapabilities dc = new DesiredCapabilities();
-        String gridUrl = System.getProperty("selenium.grid.url", "http://192.168.1.100:4444/wd/hub");
+        String gridUrl = System.getProperty("selenium.grid.url", "http:/192.168.0.105:4444/wd/hub");
         URL url = new URL(gridUrl);
         dc.setBrowserName("chrome");
         dc.setVersion("latest");
