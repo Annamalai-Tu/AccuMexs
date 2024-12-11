@@ -64,15 +64,15 @@ public class WebDriverInit extends Generics implements Configuration {
             default -> BrowserCaps.configureGoogleChrome();
         };
 
-        //driver = new RemoteWebDriver(Configuration.getRemoteGridURL(), capabilities);\
-        DesiredCapabilities dc = new DesiredCapabilities();
+        driver = new RemoteWebDriver(Configuration.getRemoteGridURL(), capabilities);
+
+        /*DesiredCapabilities dc = new DesiredCapabilities();
         String gridUrl = System.getProperty("selenium.grid.url", "http:/192.168.0.105:4444/wd/hub");
         URL url = new URL(gridUrl);
         dc.setBrowserName("chrome");
         dc.setVersion("latest");
-        driver = new RemoteWebDriver(url, dc);
+        driver = new RemoteWebDriver(url, dc);*/
 
-        driver = new RemoteWebDriver(url , dc);
         implicitWaitOf(driver, IMPLICIT_WAIT);
         maximizeWindow(driver);
 
