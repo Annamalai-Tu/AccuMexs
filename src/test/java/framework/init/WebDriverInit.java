@@ -66,7 +66,6 @@ public class WebDriverInit extends Generics implements Configuration {
 
         //driver = new RemoteWebDriver(Configuration.getRemoteGridURL(), capabilities);\
         DesiredCapabilities dc = new DesiredCapabilities();
-        dc.setPlatform(Platform.LINUX);
         dc.setBrowserName("MicrosoftEdge");
         URL url = new URL("http://localhost:4444/wd/hub");
         driver = new RemoteWebDriver(url , dc);
