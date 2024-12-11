@@ -6,11 +6,11 @@ pipeline {
                 echo "Starting Selenium Grid with Docker Compose..."
                 bat 'docker-compose up -d'
                 echo "Waiting for Selenium Grid to be ready..."
-                bat 'timeout /t 10' // Adjust the wait time as necessary
+                bat 'timeout /t 10' // Adjust as per your environment
             }
         }
 
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
                 echo 'Cloning the Git repository...'
                 git branch: 'master', url: 'https://github.com/Annamalai-Tu/AccuMexs.git'
@@ -22,10 +22,10 @@ pipeline {
                 echo "Building and Running Tests..."
                 script {
                     try {
-                        bat 'docker-compose exec tests mvn clean install'
+                        bat 'mvn clean install'
                     } catch (Exception e) {
                         echo "Build or test execution failed: ${e.message}"
-                        currentBuild.result = 'FAILURE'
+                        error "Pipeline terminated due to test failures."
                     }
                 }
             }
@@ -33,9 +33,8 @@ pipeline {
     }
     post {
         always {
-            echo "Stopping Selenium Grid..."
+            echo "Cleaning up Selenium Grid..."
             bat 'docker-compose down'
         }
     }
 }
-
