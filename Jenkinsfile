@@ -1,12 +1,19 @@
 pipeline {
     agent any
+    environment {
+        SELENIUM_GRID_URL = 'http://localhost:4444/wd/hub'
+    }
     stages {
         stage('Start Selenium Grid') {
             steps {
                 echo "Starting Selenium Grid with Docker Compose..."
+                bat 'docker-compose down || true'
                 bat 'docker-compose up -d'
                 echo "Waiting for Selenium Grid to be ready..."
-               // bat 'timeout /t 10' // Adjust as per your environment
+                retry(5) {
+                    sleep(time: 10, unit: 'SECONDS')
+                    bat 'curl -s http://localhost:4444/status'
+                }
             }
         }
 
@@ -20,13 +27,8 @@ pipeline {
         stage('Run Tests') {
             steps {
                 echo "Building and Running Tests..."
-                script {
-                    try {
-                        bat 'mvn clean install'
-                    } catch (Exception e) {
-                        echo "Build or test execution failed: ${e.message}"
-                        error "Pipeline terminated due to test failures."
-                    }
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    bat "mvn clean install -Dselenium.grid.url=${SELENIUM_GRID_URL}"
                 }
             }
         }
