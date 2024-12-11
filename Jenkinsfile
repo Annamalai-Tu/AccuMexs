@@ -10,9 +10,8 @@ pipeline {
                 bat 'docker-compose down || true'
                 bat 'docker-compose up -d'
                 echo "Waiting for Selenium Grid to be ready..."
-                retry(3) {
+                retry(1) {
                     sleep(time: 10, unit: 'SECONDS')
-                    bat 'curl -s http://localhost:4444/status'
                 }
             }
         }
@@ -28,7 +27,7 @@ pipeline {
             steps {
                 echo "Building and Running Tests..."
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    bat "mvn clean install -Dselenium.grid.url=${SELENIUM_GRID_URL}"
+                    bat "mvn clean install
                 }
             }
         }
