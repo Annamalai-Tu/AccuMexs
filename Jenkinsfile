@@ -10,7 +10,7 @@ pipeline {
                 bat 'docker-compose down || true'
                 bat 'docker-compose up -d'
                 echo "Waiting for Selenium Grid to be ready..."
-                retry(5) {
+                retry(3) {
                     sleep(time: 10, unit: 'SECONDS')
                     bat 'curl -s http://localhost:4444/status'
                 }
