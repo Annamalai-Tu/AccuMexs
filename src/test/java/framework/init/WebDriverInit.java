@@ -70,9 +70,7 @@ public class WebDriverInit extends Generics implements Configuration {
         URL url = new URL("http://selenium-hub:4444/wd/hub");
         dc.setBrowserName("chrome");
        // dc.setVersion("latest");
-        String hostIp = System.getProperty("selenium.host");
-        URL gridUrl = new URL("http://" + hostIp + ":4444/wd/hub");
-        driver = new RemoteWebDriver(gridUrl, dc);
+        driver = new RemoteWebDriver(url, dc);
 
         implicitWaitOf(driver, IMPLICIT_WAIT);
         maximizeWindow(driver);
