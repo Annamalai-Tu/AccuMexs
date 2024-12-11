@@ -44,19 +44,20 @@ services:
       - selenium-grid
 
   tests:
-      build: .
-      container_name: accumex-automation
+    build: .
+    container_name: accumex-automation
+    volumes:
+      - .:/usr/src/app
+    working_dir: /usr/src/app
+    depends_on:
+      - selenium-hub
+      - chrome
+      - edge
+      - firefox
+    entrypoint: [ "sh", "-c", "mvn test" ]
+    networks:
+      - selenium-grid
 
-      volumes:
-        - .:/usr/src/app
-      working_dir: /usr/src/app
-      depends_on:
-        - selenium-hub
-        - chrome
-        - edge
-        - firefox
-      entrypoint: [ "sh", "-c", "mvn test" ]
-      networks:
-        - selenium-grid
 networks:
   selenium-grid:
+    driver: bridge

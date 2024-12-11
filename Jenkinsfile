@@ -6,9 +6,17 @@ pipeline {
                 echo "Starting Selenium Grid with Docker Compose..."
                 bat 'docker-compose up -d'
                 echo "Waiting for Selenium Grid to be ready..."
-               // bat 'timeout /t 10' // Wait for services to initialize
+                bat 'timeout /t 10' // Adjust the wait time as necessary
             }
         }
+
+        stage('Checkout') {
+            steps {
+                echo 'Cloning the Git repository...'
+                git branch: 'master', url: 'https://github.com/Annamalai-Tu/AccuMexs.git'
+            }
+        }
+
         stage('Run Tests') {
             steps {
                 echo "Building and Running Tests..."
@@ -30,3 +38,4 @@ pipeline {
         }
     }
 }
+
