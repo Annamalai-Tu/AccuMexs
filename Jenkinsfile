@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo "Building and Running Tests..."
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    bat "mvn clean install
+                    bat "mvn clean install"
                 }
             }
         }
