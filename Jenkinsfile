@@ -6,7 +6,7 @@ pipeline {
                 echo "Starting Selenium Grid with Docker Compose..."
                 bat 'docker-compose up -d'
                 echo "Waiting for Selenium Grid to be ready..."
-                bat 'timeout /t 10' // Adjust as per your environment
+               // bat 'timeout /t 10' // Adjust as per your environment
             }
         }
 
