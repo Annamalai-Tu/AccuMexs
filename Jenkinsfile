@@ -6,14 +6,16 @@ pipeline {
           NODE_LOG = 'grid/node.log' // Path to node log file
       }
 
-      stage('Checkout Code') {
-                  steps {
-                      echo 'Cloning the Git repository...'
-                      git branch: 'master', url: 'https://github.com/Annamalai-Tu/AccuMexs.git'
-                  }
-              }
+
 
       stages {
+
+      stage('Checkout Code') {
+                        steps {
+                            echo 'Cloning the Git repository...'
+                            git branch: 'master', url: 'https://github.com/Annamalai-Tu/AccuMexs.git'
+                        }
+                    }
           stage('Maven Clean') {
               steps {
                   script {
