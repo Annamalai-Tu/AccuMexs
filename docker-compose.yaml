@@ -45,7 +45,7 @@ services:
 
   tests:
       build: .
-      container_name: AccuMexs
+      container_name: accumex-automation
 
       volumes:
         - .:/usr/src/app
