@@ -68,9 +68,9 @@ public class WebDriverInit extends Generics implements Configuration {
 
         DesiredCapabilities dc = new DesiredCapabilities();
         String gridHost = System.getenv("SELENIUM_HOST") != null ? System.getenv("SELENIUM_HOST") : "localhost";
-       // URL url = new URL("http://" + gridHost + ":4444/wd/hub");
+        URL url = new URL("http://" + gridHost + ":4444/wd/hub");
 
-        URL url = new URL("http://localhost:4444/wd/hub");
+       // URL url = new URL("http://localhost:4444/wd/hub");
         dc.setBrowserName("chrome");
        // dc.setVersion("latest");
         driver = new RemoteWebDriver(url, dc);
