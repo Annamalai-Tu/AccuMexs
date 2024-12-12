@@ -1,5 +1,10 @@
 pipeline {
     agent any
+       parameters{
+            separator(name : 'CTS_WEB_TESTING' , sectionHeader : 'CTS')
+            booleanParam(name : 'Skip test' , defaultValue : false ,
+            description : 'Click above to Skip test'
+            }
     stages {
         stage('Start Selenium Grid') {
             steps {
