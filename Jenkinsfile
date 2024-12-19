@@ -1,19 +1,29 @@
 pipeline {
     agent any
-       parameters{
-            separator(name : 'CTS_WEB_TESTING' , sectionHeader : 'CTS')
-            booleanParam(name : 'Skip test' , defaultValue : false ,
-            description : 'Click above to Skip test'
-            }
+
+    parameters {
+        separator(name: 'ACCUMEXS_WEB_TESTING', sectionHeader: 'AccuMexs')
+        booleanParam(name: 'SkipTests', defaultValue: false, description: 'Check to skip tests')
+    }
+
+    environment {
+        GIT_URL = 'https://github.com/Annamalai-Tu/AccuMexs.git'
+        BRANCH_NAME = 'master'
+        EMAIL_RECIPIENTS = 'annamalai.raja@testunity.com'
+        REPORT_PATH = 'ExtentReports/**/*.zip'
+    }
+
     stages {
-        stage('Start Selenium Grid') {
+        stage('Prepare') {
             steps {
-                echo "Starting Selenium Grid with Docker Compose..."
-                bat 'docker-compose down || true'
-                bat 'docker-compose up -d'
-                echo "Waiting for Selenium Grid to be ready..."
-                retry(1) {
-                    sleep(time: 10, unit: 'SECONDS')
+                echo 'Setting up the environment...'
+                script {
+                    if (params.SkipTests) {
+                        currentBuild.result = 'SUCCESS'
+                        echo 'Tests skipped as per user input'
+                        currentBuild.displayName = "Tests Skipped"
+                        return
+                    }
                 }
             }
         }
@@ -21,31 +31,74 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 echo 'Cloning the Git repository...'
-                git branch: 'master', url: 'https://github.com/Annamalai-Tu/AccuMexs.git'
+                git branch: env.BRANCH_NAME, url: env.GIT_URL
             }
         }
 
-        stage('Run Tests') {
+        stage('Build and Test') {
+            when {
+                expression { !params.SkipTests }
+            }
             steps {
                 echo "Building and Running Tests..."
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    bat "mvn clean install"
+                    bat 'mvn clean install'
                 }
             }
         }
 
-         stage('Report') {
-                    steps {
-                        echo 'Archiving test reports'
-                        archiveArtifacts artifacts: 'ExtentReports/**/*.zip', allowEmptyArchive: true
-                    }
-                }
-
+        stage('Archive Reports') {
+            steps {
+                echo 'Archiving test reports...'
+                archiveArtifacts artifacts: env.REPORT_PATH, allowEmptyArchive: true
+            }
+        }
     }
+
     post {
         always {
-            echo "Cleaning up Selenium Grid..."
-            bat 'docker-compose down'
+            echo 'Cleaning up workspace...'
+            deleteDir()
+        }
+
+        success {
+            echo 'Build completed successfully!'
+            mail(
+                to: env.EMAIL_RECIPIENTS,
+                subject: "Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Hi Team,
+
+                    The build completed successfully.
+                    Job: ${env.JOB_NAME}
+                    Build Number: ${env.BUILD_NUMBER}
+                    Git Branch: ${env.BRANCH_NAME}
+
+                    Regards,
+                    Jenkins
+                """
+            )
+        }
+
+        failure {
+            echo 'Build failed!'
+            mail(
+                to: env.EMAIL_RECIPIENTS,
+                subject: "Build Failure: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    Hi Team,
+
+                    The build failed.
+                    Job: ${env.JOB_NAME}
+                    Build Number: ${env.BUILD_NUMBER}
+                    Git Branch: ${env.BRANCH_NAME}
+
+                    Please investigate.
+
+                    Regards,
+                    Jenkins
+                """
+            )
         }
     }
 }
