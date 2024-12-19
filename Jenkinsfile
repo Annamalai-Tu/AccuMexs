@@ -73,10 +73,9 @@ pipeline {
                     Job: ${env.JOB_NAME}
                     Build Number: ${env.BUILD_NUMBER}
                     Git Branch: ${env.BRANCH_NAME}
-
-                    Regards,
-                    Jenkins
-                """
+                """,
+                attachLog: true, // Attach the console output log
+                attachmentsPattern: env.REPORT_PATH // Attach the report file(s)
             )
         }
 
@@ -92,12 +91,9 @@ pipeline {
                     Job: ${env.JOB_NAME}
                     Build Number: ${env.BUILD_NUMBER}
                     Git Branch: ${env.BRANCH_NAME}
-
-                    Please investigate.
-
-                    Regards,
-                    Jenkins
-                """
+                """,
+                attachLog: true, // Attach the console output log
+                attachmentsPattern: env.REPORT_PATH // Attach the report file(s)
             )
         }
     }
