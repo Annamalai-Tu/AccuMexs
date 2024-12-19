@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-            string(name: 'SECTION_HEADER', defaultValue: 'AccuMexs Testing Pipeline', description: '--- AccuMexs ---')
-            booleanParam(name: 'SkipTests', defaultValue: false, description: 'Check to skip tests')
-        }
-
     environment {
         GIT_URL = 'https://github.com/Annamalai-Tu/AccuMexs.git'
         BRANCH_NAME = 'master'
@@ -63,7 +58,7 @@ pipeline {
 
         success {
             echo 'Build completed successfully!'
-            mail(
+            emailext(
                 to: env.EMAIL_RECIPIENTS,
                 subject: "Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
@@ -74,14 +69,13 @@ pipeline {
                     Build Number: ${env.BUILD_NUMBER}
                     Git Branch: ${env.BRANCH_NAME}
                 """,
-                attachLog: true, // Attach the console output log
                 attachmentsPattern: env.REPORT_PATH // Attach the report file(s)
             )
         }
 
         failure {
             echo 'Build failed!'
-            mail(
+            emailext(
                 to: env.EMAIL_RECIPIENTS,
                 subject: "Build Failure: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
@@ -92,7 +86,6 @@ pipeline {
                     Build Number: ${env.BUILD_NUMBER}
                     Git Branch: ${env.BRANCH_NAME}
                 """,
-                attachLog: true, // Attach the console output log
                 attachmentsPattern: env.REPORT_PATH // Attach the report file(s)
             )
         }
