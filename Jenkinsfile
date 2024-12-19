@@ -2,10 +2,9 @@ pipeline {
     agent any
 
     parameters {
-        separator(name: 'ACCUMEXS_WEB_TESTING', sectionHeader: 'AccuMexs')
+        string(name: 'SECTION_HEADER', defaultValue: 'AccuMexs Testing Pipeline', description: '--- AccuMexs ---')
         booleanParam(name: 'SkipTests', defaultValue: false, description: 'Check to skip tests')
     }
-
 
     environment {
         GIT_URL = 'https://github.com/Annamalai-Tu/AccuMexs.git'
@@ -64,7 +63,7 @@ pipeline {
 
         success {
             echo 'Build completed successfully!'
-            mail(
+            emailext(
                 to: env.EMAIL_RECIPIENTS,
                 subject: "Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
@@ -74,16 +73,14 @@ pipeline {
                     Job: ${env.JOB_NAME}
                     Build Number: ${env.BUILD_NUMBER}
                     Git Branch: ${env.BRANCH_NAME}
-
-                    Regards,
-                    Jenkins
-                """
+                """,
+                attachmentsPattern: env.REPORT_PATH // Attach the report file(s)
             )
         }
 
         failure {
             echo 'Build failed!'
-            mail(
+            emailext(
                 to: env.EMAIL_RECIPIENTS,
                 subject: "Build Failure: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
@@ -93,14 +90,9 @@ pipeline {
                     Job: ${env.JOB_NAME}
                     Build Number: ${env.BUILD_NUMBER}
                     Git Branch: ${env.BRANCH_NAME}
-
-                    Please investigate.
-
-                    Regards,
-                    Jenkins
-                """
+                """,
+                attachmentsPattern: env.REPORT_PATH // Attach the report file(s)
             )
         }
     }
 }
-
