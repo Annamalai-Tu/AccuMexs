@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class HomepagePo extends AbstractPage {
 
-    @FindBy(xpath = "//span[text()='Member Registration']")
+    @FindBy(xpath = "(//span[text()='Member Registration'])[2]")
     public WebElement memberRegistrationTab;
 
     public HomepagePo(WebDriver driver) {
