@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     parameters {
-        separator(name: 'ACCUMEXS_WEB_TESTING', sectionHeader: 'AccuMexs')
-        booleanParam(name: 'SkipTests', defaultValue: false, description: 'Check to skip tests')
-    }
+            string(name: 'SECTION_HEADER', defaultValue: 'AccuMexs Testing Pipeline', description: '--- AccuMexs ---')
+            booleanParam(name: 'SkipTests', defaultValue: false, description: 'Check to skip tests')
+        }
 
     environment {
         GIT_URL = 'https://github.com/Annamalai-Tu/AccuMexs.git'
