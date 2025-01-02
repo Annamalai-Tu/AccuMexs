@@ -9,31 +9,31 @@ pipeline {
     environment {
         GIT_URL = 'https://github.com/Annamalai-Tu/AccuMexs.git'
         BRANCH_NAME = 'master'
-        EMAIL_RECIPIENTS = 'annamalai.raja@testunity.com'
+        EMAIL_RECIPIENTS = 'annamalai.raja@testunity.com' 
         REPORT_PATH = 'ExtentReports/**/*.zip'
     }
 
-    stages {
-        stage('Prepare') {
-            steps {
-                echo 'Setting up the environment...'
-                script {
-                    if (params.SkipTests) {
-                        currentBuild.result = 'SUCCESS'
-                        echo 'Tests skipped as per user input'
-                        currentBuild.displayName = "Tests Skipped"
-                        return
-                    }
-                }
-            }
-        }
+ stages {
+         stage('Prepare') {
+             steps {
+                 echo 'Setting up the environment...'
+                 script {
+                     if (params.SkipTests) {
+                         currentBuild.result = 'SUCCESS'
+                         echo 'Tests skipped as per user input'
+                         currentBuild.displayName = "Tests Skipped"
+                         return
+                     }
+                 }
+             }
+         }
 
-        stage('Checkout Code') {
-            steps {
-                echo 'Cloning the Git repository...'
-                git branch: env.BRANCH_NAME, url: env.GIT_URL
-            }
-        }
+         stage('Checkout Code') {
+             steps {
+                 echo 'Cloning the Git repository...'
+                 git branch: env.BRANCH_NAME, url: env.GIT_URL
+             }
+         }
 
         stage('Build and Test') {
             when {
@@ -56,11 +56,6 @@ pipeline {
     }
 
     post {
-        always {
-            echo 'Cleaning up workspace...'
-            deleteDir()
-        }
-
         success {
             echo 'Build completed successfully!'
             emailext(
@@ -94,5 +89,9 @@ pipeline {
                 attachmentsPattern: env.REPORT_PATH // Attach the report file(s)
             )
         }
+         always {
+                    echo 'Cleaning up workspace...'
+                    deleteDir()
+                }
     }
 }
